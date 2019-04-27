@@ -7,7 +7,9 @@ class Module(object):
             アップデートが必要なファイルリストを取得して、ファイル名だけをlistにして返す。
         """
         check_command: str = f'sudo -H {pip_version} list --outdated'
-        response: CompletedProcess = run(check_command.split(), check=True, capture_output=True)
+        response: CompletedProcess = run(
+            check_command.split(), check=True, capture_output=True
+        )
         result = response.stdout.decode(encoding).split()
 
         if result:
@@ -18,14 +20,18 @@ class Module(object):
 
     def update(self, pip_version: str = 'pip', encoding: str = 'utf-8') -> None:
         try:
-            lists: list = self.__get_list(pip_version=pip_version, encoding=encoding)
+            lists: list = self.__get_list(
+                pip_version=pip_version, encoding=encoding
+            )
         except UpdateNotFoundError as e:
             print(e)
         else:
             update_command: str = f'sudo -H {pip_version} install -U'
             for i in lists:
                 command: list = f"{update_command} {i}".split()
-                response: CompletedProcess = run(command, check=False, capture_output=True)
+                response: CompletedProcess = run(
+                    command, check=False, capture_output=True
+                )
                 result: str = response.stdout.decode(encoding)
                 print(result)
             print('全てのアップデート処理が完了しました...')
