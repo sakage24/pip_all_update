@@ -22,7 +22,7 @@ class Module(object):
         except UpdateNotFoundError as e:
             print(e)
         else:
-            update_command: str = 'sudo -H pip3.7 install -U'
+            update_command: str = f'sudo -H {pip_version} install -U'
             for i in lists:
                 command: list = f"{update_command} {i}".split()
                 response: CompletedProcess = run(command, check=False, capture_output=True)
