@@ -1,3 +1,4 @@
+#! /usr/bin/python3.7
 from subprocess import run
 
 
