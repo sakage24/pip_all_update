@@ -10,7 +10,7 @@ class Module(object):
         response: CompletedProcess = run(
             check_command.split(), check=True, capture_output=True
         )
-        result = response.stdout.decode(encoding).split()
+        result: list = response.stdout.decode(encoding).split()
 
         if result:
             # テーブルヘッダ、ボーダーなどの不要な部分とバージョン部分をカットして返却している
