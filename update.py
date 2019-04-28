@@ -3,7 +3,11 @@ from subprocess import run
 
 
 class Module(object):
-    def __get_list(self, pip_version: str = 'pip', encoding: str = 'utf-8') -> list:
+    def __get_list(
+        self,
+        pip_version: str = 'pip',
+        encoding: str = 'utf-8',
+    ) -> list:
         """
             アップデートが必要なファイルリストを取得して、ファイル名だけをlistにして返す。
         """
@@ -19,10 +23,34 @@ class Module(object):
         else:
             raise UpdateNotFoundError
 
-    def update(self, pip_version: str = 'pip', encoding: str = 'utf-8') -> None:
+    def write_list(
+        self,
+        file_path: str = './requirements.txt',
+        pip_version: str = 'pip',
+        encoding: str = 'utf-8',
+    ) -> bool:
         try:
             lists: list = self.__get_list(
-                pip_version=pip_version, encoding=encoding
+                pip_version=pip_version,
+                encoding=encoding,
+            )
+        except UpdateNotFoundError:
+            return False
+        else:
+            with open(file_path, mode='wt', encoding=encoding) as f:
+                for i in lists:
+                    f.write(i + '\n')
+            return True
+
+    def update(
+        self,
+        pip_version: str = 'pip',
+        encoding: str = 'utf-8',
+    ) -> None:
+        try:
+            lists: list = self.__get_list(
+                pip_version=pip_version,
+                encoding=encoding,
             )
         except UpdateNotFoundError as e:
             print(e)
@@ -31,11 +59,12 @@ class Module(object):
             for i in lists:
                 command: list = f"{update_command} {i}".split()
                 response: CompletedProcess = run(
-                    command, check=False, capture_output=True
+                    command,
+                    check=False,
+                    capture_output=True
                 )
                 result: str = response.stdout.decode(encoding)
                 print(result)
-            print('全てのアップデート処理が完了しました...')
 
 
 class UpdateNotFoundError(BaseException):
@@ -45,8 +74,16 @@ class UpdateNotFoundError(BaseException):
 
 if __name__ == '__main__':
     module = Module()
+    versions: str = 'pip3.7'
+    text_file_name: str = '/tmp/requirements.txt'
+
     try:
-        module.update(pip_version='pip3.7', encoding='utf-8')
+        is_success: bool = module.write_list(
+                               file_path=text_file_name,
+                               pip_version=versions,
+                           )
+        if is_success:
+            module.update(pip_version=versions, encoding='utf-8')
     except KeyboardInterrupt:
         print('ユーザによって処理が中断されました...')
     finally:
