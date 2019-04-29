@@ -1,9 +1,8 @@
 from pprint import pprint
 
 
-def test_update(file_path: str = 'sample.txt'):
+def test_update(file_path: str = 'sample.txt') -> None:
     lists: list = []
-    modules: str = ""
     with open(file_path, mode='rt', encoding='utf-8') as f:
         for i in f.readlines():
             for j in i.split():
@@ -15,4 +14,3 @@ def test_update(file_path: str = 'sample.txt'):
 
 
 test_update(file_path='sample.txt')
-
