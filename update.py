@@ -19,7 +19,7 @@ class Module(object):
 
         if result:
             # テーブルヘッダ、ボーダーなどの不要な部分とバージョン部分をカットして返却している
-            return result[4::2]
+            return result[8::4]
         else:
             raise UpdateNotFoundError
 
