@@ -3,11 +3,9 @@ from subprocess import run
 
 
 class Module(object):
-    def __get_list(
-        self,
-        pip_version: str = 'pip',
-        encoding: str = 'utf-8',
-    ) -> list:
+    def __get_list(self,
+                   pip_version: str = 'pip',
+                   encoding: str = 'utf-8') -> list:
         """
             アップデートが必要なファイルリストを取得して、ファイル名だけをlistにして返す。
         """
@@ -23,12 +21,10 @@ class Module(object):
         else:
             raise UpdateNotFoundError
 
-    def write_list(
-        self,
-        file_path: str = './requirements.txt',
-        pip_version: str = 'pip',
-        encoding: str = 'utf-8',
-    ) -> bool:
+    def write_list(self,
+                   file_path: str = './requirements.txt',
+                   pip_version: str = 'pip',
+                   encoding: str = 'utf-8',) -> bool:
         """
             __get_list関数の実行結果をテキストファイルとして書き出す
         """
@@ -45,11 +41,9 @@ class Module(object):
                     f.write(i + '\n')
             return True
 
-    def update(
-        self,
-        pip_version: str = 'pip',
-        encoding: str = 'utf-8',
-    ) -> None:
+    def update(self,
+               pip_version: str = 'pip',
+               encoding: str = 'utf-8') -> None:
         """
             アップデートが必要なモジュールを調べて、
             必要なモジュールに対してのみアップデートコマンドを繰り返し実行する
