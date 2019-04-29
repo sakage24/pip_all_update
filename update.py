@@ -29,6 +29,9 @@ class Module(object):
         pip_version: str = 'pip',
         encoding: str = 'utf-8',
     ) -> bool:
+        """
+            __get_list関数の実行結果をテキストファイルとして書き出す
+        """
         try:
             lists: list = self.__get_list(
                 pip_version=pip_version,
@@ -47,6 +50,10 @@ class Module(object):
         pip_version: str = 'pip',
         encoding: str = 'utf-8',
     ) -> None:
+        """
+            アップデートが必要なモジュールを調べて、
+            必要なモジュールに対してのみアップデートコマンドを繰り返し実行する
+        """
         try:
             lists: list = self.__get_list(
                 pip_version=pip_version,
@@ -75,15 +82,9 @@ class UpdateNotFoundError(BaseException):
 if __name__ == '__main__':
     module = Module()
     versions: str = 'pip3.7'
-    text_file_name: str = '/tmp/requirements.txt'
-
+    charset: str = 'utf-8'
     try:
-        is_success: bool = module.write_list(
-                               file_path=text_file_name,
-                               pip_version=versions,
-                           )
-        if is_success:
-            module.update(pip_version=versions, encoding='utf-8')
+        module.update(pip_version=versions, encoding=charset)
     except KeyboardInterrupt:
         print('ユーザによって処理が中断されました...')
     finally:
