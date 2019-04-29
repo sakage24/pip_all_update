@@ -1,10 +1,10 @@
 from pprint import pprint
 
 
-def test_update():
+def test_update(file_path: str = 'sample.txt'):
     lists: list = []
     modules: str = ""
-    with open('sample.txt', mode='rt', encoding='utf-8') as f:
+    with open(file_path, mode='rt', encoding='utf-8') as f:
         for i in f.readlines():
             for j in i.split():
                 lists.append(j)
@@ -14,4 +14,5 @@ def test_update():
     pprint(lists[8::4])
 
 
-test_update()
+test_update(file_path='sample.txt')
+
