@@ -24,7 +24,7 @@ class Module(object):
     def write_list(self,
                    file_path: str = './requirements.txt',
                    pip_version: str = 'pip',
-                   encoding: str = 'utf-8',) -> bool:
+                   encoding: str = 'utf-8') -> bool:
         """
             __get_list関数の実行結果をテキストファイルとして書き出す
         """
