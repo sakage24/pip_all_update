@@ -5,11 +5,16 @@ from subprocess import run
 class Module(object):
     def __get_list(self,
                    pip_version: str = 'pip',
-                   encoding: str = 'utf-8') -> list:
+                   encoding: str = 'utf-8',
+                   use_sudo: bool = False) -> list:
         """
             アップデートが必要なファイルリストを取得して、ファイル名だけをlistにして返す。
         """
-        check_command: str = f'sudo -H {pip_version} list --outdated'
+        if use_sudo:
+            check_command: str = f'sudo -H {pip_version} list --outdated'
+        else:
+            check_command: str = f'{pip_version} list --outdated'
+
         response: CompletedProcess = run(
             check_command.split(), check=True, capture_output=True
         )
@@ -24,7 +29,8 @@ class Module(object):
     def write_list(self,
                    file_path: str = './requirements.txt',
                    pip_version: str = 'pip',
-                   encoding: str = 'utf-8') -> bool:
+                   encoding: str = 'utf-8',
+                   use_sudo: bool = False) -> bool:
         """
             __get_list関数の実行結果をテキストファイルとして書き出す
         """
@@ -32,6 +38,7 @@ class Module(object):
             lists: list = self.__get_list(
                 pip_version=pip_version,
                 encoding=encoding,
+                use_sudo=use_sudo,
             )
         except UpdateNotFoundError:
             return False
@@ -43,7 +50,8 @@ class Module(object):
 
     def update(self,
                pip_version: str = 'pip',
-               encoding: str = 'utf-8') -> None:
+               encoding: str = 'utf-8',
+               use_sudo: bool = False) -> None:
         """
             アップデートが必要なモジュールを調べて、
             必要なモジュールに対してのみアップデートコマンドを繰り返し実行する
@@ -52,11 +60,16 @@ class Module(object):
             lists: list = self.__get_list(
                 pip_version=pip_version,
                 encoding=encoding,
+                use_sudo=use_sudo,
             )
         except UpdateNotFoundError as e:
             print(e)
         else:
-            update_command: str = f'sudo -H {pip_version} install -U'
+            if use_sudo:
+                update_command: str = f'sudo -H {pip_version} install -U'
+            else:
+                update_command: str = f'{pip_version} install -U'
+
             for i in lists:
                 command: list = f"{update_command} {i}".split()
                 response: CompletedProcess = run(
@@ -77,8 +90,12 @@ if __name__ == '__main__':
     module = Module()
     versions: str = 'pip3.7'
     charset: str = 'utf-8'
+    use_sudo: bool = True
+
     try:
-        module.update(pip_version=versions, encoding=charset)
+        module.update(pip_version=versions,
+                      encoding=charset,
+                      use_sudo=use_sudo)
     except KeyboardInterrupt:
         print('ユーザによって処理が中断されました...')
     finally:
