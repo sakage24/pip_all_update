@@ -1,10 +1,10 @@
 #! /usr/bin/python3.7
-from subprocess import run
+from subprocess import run, CompletedProcess
 
 
 class Module(object):
-    def __get_list(self,
-                   pip_version: str = 'pip',
+    @staticmethod
+    def __get_list(pip_version: str = 'pip',
                    encoding: str = 'utf-8',
                    use_sudo: bool = False) -> list:
         """
