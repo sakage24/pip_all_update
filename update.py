@@ -16,8 +16,11 @@ class Module(object):
             check_command: str = f'{pip_version} list --outdated'
 
         response: CompletedProcess = run(
-            check_command.split(), check=True, capture_output=True
+            check_command.split(),
+            check=True,
+            capture_output=True,
         )
+
         result: list = response.stdout.decode(encoding).split()
 
         if result:
@@ -74,8 +77,8 @@ class Module(object):
                 command: list = f"{update_command} {i}".split()
                 response: CompletedProcess = run(
                     command,
-                    check=False,
-                    capture_output=True
+                    check=True,
+                    capture_output=True,
                 )
                 result: str = response.stdout.decode(encoding)
                 print(result)
