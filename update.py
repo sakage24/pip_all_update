@@ -1,5 +1,6 @@
 #! /usr/bin/python3.7
-from subprocess import run, CompletedProcess
+from subprocess import run
+from subprocess import CompletedProcess
 
 
 class Module(object):
