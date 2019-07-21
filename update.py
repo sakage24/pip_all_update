@@ -1,6 +1,5 @@
-#! /usr/bin/python3.7
-from subprocess import run
-from subprocess import CompletedProcess
+#! /home/kiwi/.pyenv/shims/python
+from subprocess import run, CompletedProcess
 
 
 class Module(object):
@@ -92,9 +91,9 @@ class UpdateNotFoundError(BaseException):
 
 if __name__ == '__main__':
     module = Module()
-    versions: str = 'pip3.7'
+    versions: str = 'pip'
     charset: str = 'utf-8'
-    require_sudo: bool = True
+    require_sudo: bool = False
 
     try:
         module.update(pip_version=versions,
